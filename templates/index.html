@@ -2,23 +2,21 @@
 {% block content %}
 
 
-<div id="sidebar">
-  <button type="button" id="query">View Plot</button>
+<div id="fichier">
+  <form method=post enctype=multipart/form-data>
+    <p><input type=file name=file>
+       <input type=submit value=Upload>
+  </form>
+
+
 </div>
 
-<div id="container" style="width:70%; height:400px;"></div>
+<div id="signal"></div>
 <script type="text/javascript">   
-
-$("#query").click(function() {  
-  $("#loading-div-background").show();
-     var graph = $("#container");
-  $.get("/query", function(result){
-     graph.html(result);   
-     $("#loading-div-background").hide();      
-     $("#container").show();
-  });
+  var graph = $("#signal");
+  $.get("/query/{{filename}}", function(result){
+  graph.html(result);   
+  $("#signal").show();
 });
-
-
 </script>
 {% endblock %}
