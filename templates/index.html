@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div id="sidebar">
+  <button type="button" id="query">View Plot</button>
+</div>
+
+<div id="container" style="width:70%; height:400px;"></div>
+<script type="text/javascript">   
+
+$("#query").click(function() {  
+  $("#loading-div-background").show();
+     var graph = $("#container");
+  $.get("/query", function(result){
+     graph.html(result);   
+     $("#loading-div-background").hide();      
+     $("#container").show();
+  });
+});
+
+
+</script>
+{% endblock %}
