@@ -25,9 +25,7 @@ def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in\
            ALLOWED_EXTENSIONS
 
-def graph_test():
-    x = range(16000)
-    y = [a * 2 + random.randint(-20, 20) for a in x]
+def graph_test(x, y):
     fig, ax = plt.subplots()
     ax.plot(x, y)
     fig_html = mpld3.fig_to_html(fig)
@@ -57,7 +55,25 @@ def home():
 
 @app.route('/query/<filename>')
 def query(filename):
-    fig_html = graph_test()
+    tab = np.loadtxt('data/' + filename)
+    tmp = 0
+    x = []
+    y = []
+    try:
+        dim = len(tab[0])
+    except TypeError:
+        dim = 1
+    for i in tab :
+        if dim == 1:
+            x.append(tmp)
+            tmp = tmp + 1
+            y.append(i)
+        if dim ==2:
+            x.append(i[0])
+            y.append(i[1])
+    #print x
+    #print y
+    fig_html = graph_test(x, y)
     return fig_html
 
 
