@@ -1,6 +1,7 @@
 from flask import Flask, render_template, json, request, redirect, url_for,\
      flash
 import numpy as np
+from sp_lightning import read_signal_txt, read_signal_fms
 
 import matplotlib
 import json
@@ -55,24 +56,10 @@ def home():
 
 @app.route('/query/<filename>')
 def query(filename):
-    tab = np.loadtxt('data/' + filename)
-    tmp = 0
-    x = []
-    y = []
-    try:
-        dim = len(tab[0])
-    except TypeError:
-        dim = 1
-    for i in tab :
-        if dim == 1:
-            x.append(tmp)
-            tmp = tmp + 1
-            y.append(i)
-        if dim ==2:
-            x.append(i[0])
-            y.append(i[1])
-    #print x
-    #print y
+    if filename.find('.txt') <> -1:
+        x, y = read_signal_txt(filename)
+    elif filename.find('.fms') <> -1:
+        x, y = read_signal_fms(filename)
     fig_html = graph_test(x, y)
     return fig_html
 
