@@ -57,9 +57,9 @@ def home():
 @app.route('/query/<filename>')
 def query(filename):
     if filename.find('.txt') <> -1:
-        x, y = read_signal_txt(filename)
+        x, y, param = read_signal_txt(filename)
     elif filename.find('.fms') <> -1:
-        x, y = read_signal_fms(filename)
+        x, y, param = read_signal_fms(filename)
     fig_html = graph_test(x, y)
     return fig_html
 
